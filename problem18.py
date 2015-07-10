@@ -51,21 +51,9 @@ class Pyramid:
     def solve(self):
         self.counted or self.compute_totals()
 
-        total = 0
+        first = self._store[0][0]
 
-        col_index = 0
+        left_child = self._store[1][0]
+        right_child = self._store[1][1]
 
-        for row_index, row in enumerate(self._store):
-            if row_index == 0:
-                total = row[col_index]
-                continue
-
-            left_child = row[col_index]
-            right_child = row[col_index + 1]
-
-            if right_child > left_child:
-                col_index += 1
-
-            total += row[col_index]
-
-        return total
+        return first + (left_child if left_child > right_child else right_child)
