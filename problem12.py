@@ -85,9 +85,9 @@ class Primes(object):
 
 class FactorCounter(object):
 
-    def __init__(self, CACHE=True):
-        self.CACHE = CACHE
-        if self.CACHE:
+    def __init__(self, USE_CACHE=True):
+        self.USE_CACHE = USE_CACHE
+        if self.USE_CACHE:
             self.cache = {}
 
     def factor_triangles(self, stop=100000000000):
@@ -128,7 +128,7 @@ class FactorCounter(object):
             print('Checking {0}'.format(i))
             if num % i == 0:
 
-                if self.CACHE and self.cache.get(i):
+                if self.USE_CACHE and self.cache.get(i):
                     count += self._process_cache_hit(num, i)
                     print('Count is {0}'.format(count))
 
@@ -141,7 +141,7 @@ class FactorCounter(object):
                         count += 2
                     print('Count is {0}'.format(count))
 
-        if self.CACHE:
+        if self.USE_CACHE:
             self.cache[num] = count
         return count
 
