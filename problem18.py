@@ -13,15 +13,15 @@ FILEPATH = 'problem18.txt'
 
 class Pyramid:
 
-    def __init__(self, filepath=None):
+    def __init__(self, filepath=FILEPATH):
         self.counted = False
-        self.parse_file()
+        self.parse_file(filepath)
 
     def __str__(self):
         return ''.join(['{}\n'.format(row) for row in self._store])
 
     def parse_file(self, path=FILEPATH):
-        f = open(FILEPATH)
+        f = open(path)
         self._store = [[int(num) for num in line.split()]
                        for line in f.readlines()]
 
