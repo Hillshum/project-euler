@@ -40,7 +40,34 @@ def primes(limit=None):
     
     raise StopIteration
     
+POSSIBLE_RIGHTS = [1,3,7,9]
+
+def expand_right(num):
+    possibles = []
+    finished = True
+
+    for i in POSSIBLE_RIGHTS:
+        test = num * 10 + i
+        if is_prime(test):
+            possibles.append(test)
+            finished = False
+    print(possibles)
+    for i in possibles:
+        expand_right(i)
+
+def expand_left(num):
+    possibles = []
+    finished = True
+
+    for i in range(1, 11):
+        test = num + 10 * i
+        if is_prime(test):
+            possibles.append(test)
+            finished = False
+    
+    print(possibles)
+    for i in possibles:
+        expand_left(i)
 
 if __name__ == '__main__':
-    print(len([num for num in primes()]))
-
+    expand_left(37)
