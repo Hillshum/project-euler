@@ -8,12 +8,22 @@
 #
 ###################################################
 
+from math import log10
+
 def is_prime(num, cache=None):
 
     if not cache:
         tests = range(3, int(num**.5) + 1, 2) 
     else:
         tests = cache
+    
+    if num is 1:
+        return False
+    if num is 2:
+        return True
+    
+    if num % 2 is 0:
+        return False
 
     for i in tests:
         #print("i is {0}, num is {1}".format(i, num))
@@ -23,10 +33,11 @@ def is_prime(num, cache=None):
             return False
     return True
 
+
 def primes(limit=None):
 
     if not limit:
-        limit = 500000
+        limit = 200000
 
     yield 2
     yield 3
@@ -40,34 +51,35 @@ def primes(limit=None):
     
     raise StopIteration
     
-POSSIBLE_RIGHTS = [1,3,7,9]
+BASE_PRIMES = [2, 3, 5, 7]
 
-def expand_right(num):
-    possibles = []
-    finished = True
+def truncatable_left(num):
+    test = num % 10**int(log10(num))
 
-    for i in POSSIBLE_RIGHTS:
-        test = num * 10 + i
-        if is_prime(test):
-            possibles.append(test)
-            finished = False
-    print(possibles)
-    for i in possibles:
-        expand_right(i)
+    if not is_prime(test):
+        return False
 
-def expand_left(num):
-    possibles = []
-    finished = True
+    if test > 9:
+        return truncatable_left(test)
+    else:
+        return True
 
-    for i in range(1, 11):
-        test = num + 10 * i
-        if is_prime(test):
-            possibles.append(test)
-            finished = False
-    
-    print(possibles)
-    for i in possibles:
-        expand_left(i)
+def truncatable_right(num):
+    test = num // 10
+    if not is_prime(test):
+        return False
+
+    if test > 9:
+        return truncatable_right(test)
+    else:
+        return True
+
+
 
 if __name__ == '__main__':
-    expand_left(37)
+    truncatables = []
+    for prime in primes(5000000):
+        if truncatable_right(prime) and truncatable_left(prime):
+            truncatables.append(prime)
+
+    print(sum(truncatables))
